@@ -1,0 +1,309 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Madhushanka Liyanaarachchi — AI Image & Video Creator</title>
+<meta name="description" content="Portfolio of Madhushanka Liyanaarachchi, AI image and video creator.">
+<style>
+  :root{
+    --bg:#0a0a0f;
+    --bg2:#101018;
+    --accent:#8b5cf6;
+    --accent2:#06b6d4;
+    --text:#e5e5ef;
+    --muted:#9a9ab0;
+    --card:#15151f;
+  }
+  *{margin:0;padding:0;box-sizing:border-box}
+  html{scroll-behavior:smooth}
+  body{
+    font-family:'Segoe UI',system-ui,-apple-system,sans-serif;
+    background:var(--bg);color:var(--text);line-height:1.6;overflow-x:hidden;
+  }
+  a{color:inherit;text-decoration:none}
+  section{padding:90px 8%;max-width:1200px;margin:0 auto}
+
+  /* NAV */
+  nav{
+    position:fixed;top:0;left:0;right:0;z-index:100;
+    display:flex;justify-content:space-between;align-items:center;
+    padding:18px 6%;background:rgba(10,10,15,.75);backdrop-filter:blur(12px);
+    border-bottom:1px solid rgba(139,92,246,.15);
+  }
+  .logo{font-weight:800;font-size:1.15rem;letter-spacing:.5px}
+  .logo span{color:var(--accent)}
+  nav ul{display:flex;gap:32px;list-style:none}
+  nav ul a{color:var(--muted);font-size:.92rem;transition:color .25s}
+  nav ul a:hover{color:var(--accent)}
+  .menu-btn{display:none;background:none;border:none;color:var(--text);font-size:1.6rem;cursor:pointer}
+
+  /* HERO */
+  .hero{
+    min-height:100vh;display:flex;flex-direction:column;justify-content:center;
+    position:relative;padding:120px 8% 60px;
+  }
+  .hero::before{
+    content:'';position:absolute;inset:0;
+    background:radial-gradient(circle at 70% 30%,rgba(139,92,246,.18),transparent 50%),
+               radial-gradient(circle at 20% 80%,rgba(6,182,212,.12),transparent 50%);
+    pointer-events:none;
+  }
+  .hero .badge{
+    display:inline-block;padding:6px 16px;border-radius:99px;font-size:.8rem;
+    border:1px solid var(--accent);color:var(--accent);margin-bottom:24px;width:max-content;
+  }
+  .hero h1{font-size:clamp(2.4rem,6vw,4.4rem);line-height:1.1;max-width:800px}
+  .hero h1 .grad{
+    background:linear-gradient(90deg,var(--accent),var(--accent2));
+    -webkit-background-clip:text;background-clip:text;color:transparent;
+  }
+  .hero p{color:var(--muted);max-width:560px;margin:22px 0 36px;font-size:1.08rem}
+  .btn{
+    display:inline-block;padding:14px 34px;border-radius:10px;font-weight:600;
+    transition:transform .2s,box-shadow .2s;cursor:pointer;border:none;font-size:.95rem;
+  }
+  .btn-primary{
+    background:linear-gradient(90deg,var(--accent),var(--accent2));color:#fff;
+    box-shadow:0 8px 30px rgba(139,92,246,.35);
+  }
+  .btn-primary:hover{transform:translateY(-3px);box-shadow:0 12px 40px rgba(139,92,246,.5)}
+  .btn-ghost{background:transparent;border:1px solid var(--muted);color:var(--text);margin-left:14px}
+  .btn-ghost:hover{border-color:var(--accent);color:var(--accent)}
+
+  /* SECTION HEADERS */
+  h2{font-size:clamp(1.8rem,4vw,2.6rem);margin-bottom:12px}
+  .sub{color:var(--muted);margin-bottom:48px;max-width:600px}
+
+  /* GALLERY */
+  .filters{display:flex;gap:12px;flex-wrap:wrap;margin-bottom:40px}
+  .filter{
+    padding:8px 20px;border-radius:99px;border:1px solid rgba(255,255,255,.12);
+    background:var(--card);color:var(--muted);cursor:pointer;font-size:.88rem;transition:.25s;
+  }
+  .filter.active,.filter:hover{border-color:var(--accent);color:var(--accent)}
+  .grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(280px,1fr));gap:24px}
+  .card{
+    background:var(--card);border-radius:16px;overflow:hidden;
+    border:1px solid rgba(255,255,255,.06);transition:transform .3s,box-shadow .3s;
+  }
+  .card:hover{transform:translateY(-6px);box-shadow:0 16px 40px rgba(0,0,0,.5)}
+  .thumb{aspect-ratio:16/10;position:relative;overflow:hidden}
+  .thumb img{width:100%;height:100%;object-fit:cover;display:block;transition:transform .5s}
+  .card:hover .thumb img{transform:scale(1.06)}
+  .thumb .play{
+    position:absolute;inset:0;display:flex;align-items:center;justify-content:center;
+    background:rgba(0,0,0,.35);opacity:0;transition:opacity .3s;
+  }
+  .card:hover .play{opacity:1}
+  .play::after{content:'▶';font-size:2.2rem;color:#fff;text-shadow:0 0 20px rgba(139,92,246,.8)}
+  .card-body{padding:18px 20px}
+  .card-body h3{font-size:1.02rem;margin-bottom:6px}
+  .card-body .tag{font-size:.75rem;color:var(--accent2);text-transform:uppercase;letter-spacing:1px}
+  .card.hidden{display:none}
+
+  /* ABOUT / SKILLS */
+  .about-grid{display:grid;grid-template-columns:1.2fr .8fr;gap:60px;align-items:start}
+  .about-grid p{color:var(--muted);margin-bottom:16px}
+  .skill{margin-bottom:22px}
+  .skill label{display:flex;justify-content:space-between;font-size:.9rem;margin-bottom:8px}
+  .bar{height:8px;background:rgba(255,255,255,.08);border-radius:99px;overflow:hidden}
+  .bar i{
+    display:block;height:100%;border-radius:99px;
+    background:linear-gradient(90deg,var(--accent),var(--accent2));width:0;transition:width 1.2s ease;
+  }
+
+  /* SERVICES */
+  .services{display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));gap:24px}
+  .service{
+    background:var(--card);padding:32px 28px;border-radius:16px;
+    border:1px solid rgba(255,255,255,.06);transition:.3s;
+  }
+  .service:hover{border-color:var(--accent);transform:translateY(-5px)}
+  .service .icon{font-size:2rem;margin-bottom:16px}
+  .service h3{margin-bottom:10px;font-size:1.1rem}
+  .service p{color:var(--muted);font-size:.92rem}
+
+  /* CONTACT */
+  .contact-wrap{display:grid;grid-template-columns:1fr 1fr;gap:60px}
+  .contact-info p{color:var(--muted);margin-bottom:24px}
+  .contact-info a{color:var(--accent)}
+  form input,form textarea{
+    width:100%;padding:14px 16px;margin-bottom:16px;border-radius:10px;
+    background:var(--card);border:1px solid rgba(255,255,255,.1);color:var(--text);font-size:.95rem;
+  }
+  form input:focus,form textarea:focus{outline:none;border-color:var(--accent)}
+  .form-msg{margin-top:14px;color:#4ade80;font-size:.9rem;display:none}
+
+  footer{
+    text-align:center;padding:40px 8%;color:var(--muted);font-size:.85rem;
+    border-top:1px solid rgba(255,255,255,.06);
+  }
+
+  /* REVEAL ANIMATION */
+  .reveal{opacity:0;transform:translateY(30px);transition:opacity .7s,transform .7s}
+  .reveal.visible{opacity:1;transform:none}
+
+  @media(max-width:800px){
+    nav ul{
+      position:fixed;top:62px;right:0;flex-direction:column;background:var(--bg2);
+      width:200px;padding:24px;gap:20px;transform:translateX(100%);transition:transform .3s;
+      border-left:1px solid rgba(139,92,246,.2);
+    }
+    nav ul.open{transform:none}
+    .menu-btn{display:block}
+    .about-grid,.contact-wrap{grid-template-columns:1fr}
+  }
+</style>
+<base target="_blank">
+</head>
+<body>
+
+<nav>
+  <div class="logo">MADHU<span>.AI</span></div>
+  <button class="menu-btn" id="menuBtn">☰</button>
+  <ul id="navMenu">
+    <li><a href="#work">Work</a></li>
+    <li><a href="#about">About</a></li>
+    <li><a href="#services">Services</a></li>
+    <li><a href="#contact">Contact</a></li>
+  </ul>
+</nav>
+
+<section class="hero">
+  <span class="badge">AI Image & Video Creator</span>
+  <h1>Hi, I'm <span class="grad">Madhushanka Liyanaarachchi</span><br>I turn imagination into visuals.</h1>
+  <p>I create stunning AI-generated images and cinematic AI videos — from concept art and product visuals to full motion stories, crafted with cutting-edge generative tools.</p>
+  <div>
+    <a href="#work" class="btn btn-primary">View My Work</a>
+    <a href="#contact" class="btn btn-ghost">Get In Touch</a>
+  </div>
+</section>
+
+<section id="work" class="reveal">
+  <h2>Selected Work</h2>
+  <p class="sub">A showcase of AI-generated images and video projects. Filter by type.</p>
+  <div class="filters">
+    <button class="filter active" data-filter="all">All</button>
+    <button class="filter" data-filter="image">AI Images</button>
+    <button class="filter" data-filter="video">AI Videos</button>
+  </div>
+  <div class="grid" id="gallery">
+    <!-- Add your own images/videos here: replace src with your files -->
+    <div class="card" data-type="image">
+      <div class="thumb"><img src="https://picsum.photos/seed/ai1/640/400" alt="Neon Dreams"></div>
+      <div class="card-body"><span class="tag">AI Image</span><h3>Neon Dreams Series</h3></div>
+    </div>
+    <div class="card" data-type="video">
+      <div class="thumb"><img src="https://picsum.photos/seed/ai2/640/400" alt="Cinematic Reel"></div>
+      <div class="card-body"><span class="tag">AI Video</span><h3>Cinematic Brand Reel</h3></div>
+    </div>
+    <div class="card" data-type="image">
+      <div class="thumb"><img src="https://picsum.photos/seed/ai3/640/400" alt="Fantasy Worlds"></div>
+      <div class="card-body"><span class="tag">AI Image</span><h3>Fantasy Worlds</h3></div>
+    </div>
+    <div class="card" data-type="video">
+      <div class="thumb"><img src="https://picsum.photos/seed/ai4/640/400" alt="Product Promo"></div>
+      <div class="card-body"><span class="tag">AI Video</span><h3>AI Product Promo</h3></div>
+    </div>
+    <div class="card" data-type="image">
+      <div class="thumb"><img src="https://picsum.photos/seed/ai5/640/400" alt="Portraits"></div>
+      <div class="card-body"><span class="tag">AI Image</span><h3>Hyperreal Portraits</h3></div>
+    </div>
+    <div class="card" data-type="video">
+      <div class="thumb"><img src="https://picsum.photos/seed/ai6/640/400" alt="Music Visual"></div>
+      <div class="card-body"><span class="tag">AI Video</span><h3>Music Visualizer Film</h3></div>
+    </div>
+  </div>
+</section>
+
+<section id="about" class="reveal">
+  <h2>About Me</h2>
+  <p class="sub">The person behind the pixels.</p>
+  <div class="about-grid">
+    <div>
+      <p>I'm Madhushanka Liyanaarachchi, a creative AI artist specializing in generative imagery and AI-driven video production. I blend artistic vision with tools like Midjourney, Stable Diffusion, Runway, and Pika to produce visuals that feel both futuristic and human.</p>
+      <p>Whether it's surreal concept art, product photography that doesn't need a camera, or full AI-generated video ads — I help brands and creators stand out with content that's fast, fresh, and unforgettable.</p>
+    </div>
+    <div>
+      <div class="skill"><label>AI Image Generation <span>95%</span></label><div class="bar"><i data-w="95"></i></div></div>
+      <div class="skill"><label>AI Video / Motion <span>88%</span></label><div class="bar"><i data-w="88"></i></div></div>
+      <div class="skill"><label>Prompt Engineering <span>92%</span></label><div class="bar"><i data-w="92"></i></div></div>
+      <div class="skill"><label>Editing & Post-Production <span>85%</span></label><div class="bar"><i data-w="85"></i></div></div>
+    </div>
+  </div>
+</section>
+
+<section id="services" class="reveal">
+  <h2>Services</h2>
+  <p class="sub">What I can create for you.</p>
+  <div class="services">
+    <div class="service"><div class="icon">🎨</div><h3>AI Image Creation</h3><p>Concept art, product shots, portraits, and brand visuals — generated and refined to perfection.</p></div>
+    <div class="service"><div class="icon">🎬</div><h3>AI Video Production</h3><p>Cinematic AI videos, ads, music visuals, and social reels that capture attention instantly.</p></div>
+    <div class="service"><div class="icon">⚡</div><h3>Prompt Engineering</h3><p>Custom prompt systems and style guides so your brand generates consistent, on-brand visuals.</p></div>
+    <div class="service"><div class="icon">✂️</div><h3>Editing & Upscaling</h3><p>Professional post-production, 4K upscaling, color grading, and motion polish.</p></div>
+  </div>
+</section>
+
+<section id="contact" class="reveal">
+  <h2>Let's Work Together</h2>
+  <p class="sub">Have a project in mind? Send a message.</p>
+  <div class="contact-wrap">
+    <div class="contact-info">
+      <p>📧 <a href="mailto:madhushanka@example.com">madhushanka@example.com</a></p>
+      <p>📍 Sri Lanka</p>
+      <p>💼 Available for freelance projects, brand collaborations, and commissions.</p>
+    </div>
+    <form id="contactForm">
+      <input type="text" placeholder="Your Name" required>
+      <input type="email" placeholder="Your Email" required>
+      <textarea rows="5" placeholder="Tell me about your project..." required></textarea>
+      <button type="submit" class="btn btn-primary">Send Message</button>
+      <p class="form-msg" id="formMsg">✅ Thanks! I'll get back to you soon.</p>
+    </form>
+  </div>
+</section>
+
+<footer>
+  © 2026 Madhushanka Liyanaarachchi — Crafted with AI, coded with passion.
+</footer>
+
+<script>
+  // Mobile menu
+  const menuBtn = document.getElementById('menuBtn');
+  const navMenu = document.getElementById('navMenu');
+  menuBtn.addEventListener('click', () => navMenu.classList.toggle('open'));
+  navMenu.querySelectorAll('a').forEach(a => a.addEventListener('click', () => navMenu.classList.remove('open')));
+
+  // Gallery filter
+  document.querySelectorAll('.filter').forEach(btn => {
+    btn.addEventListener('click', () => {
+      document.querySelectorAll('.filter').forEach(b => b.classList.remove('active'));
+      btn.classList.add('active');
+      const f = btn.dataset.filter;
+      document.querySelectorAll('#gallery .card').forEach(card => {
+        card.classList.toggle('hidden', f !== 'all' && card.dataset.type !== f);
+      });
+    });
+  });
+
+  // Scroll reveal
+  const observer = new IntersectionObserver(entries => {
+    entries.forEach(e => {
+      if (e.isIntersecting) {
+        e.target.classList.add('visible');
+        e.target.querySelectorAll('.bar i').forEach(bar => bar.style.width = bar.dataset.w + '%');
+      }
+    });
+  }, { threshold: 0.15 });
+  document.querySelectorAll('.reveal').forEach(el => observer.observe(el));
+
+  // Fake form submit (hook up to EmailJS / Formspree for real sending)
+  document.getElementById('contactForm').addEventListener('submit', e => {
+    e.preventDefault();
+    document.getElementById('formMsg').style.display = 'block';
+    e.target.reset();
+  });
+</script>
+</body>
+</html>
